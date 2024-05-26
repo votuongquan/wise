@@ -55,7 +55,7 @@ def single_optimize(module, preset, loss_name, s, t,
     vp = module.vpd.preset_tensor(preset, batch_im, CONFIG["local_params"])
     grad_vp = ParameterContainer(vp, smooth=False)
 
-    writer = imageio.get_writer(f"{output_name}_video.mp4") if write_video else None
+    writer = imageio.get_writer(f"{output_name}_video.mp4", fps=30) if write_video else None
     gauss2dx = Gauss2DEffect(dxdy=[1.0, 0.0], dim_kernsize=5)
     gauss2dy = Gauss2DEffect(dxdy=[0.0, 1.0], dim_kernsize=5)
 
