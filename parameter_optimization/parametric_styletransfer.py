@@ -88,11 +88,11 @@ def single_optimize(module, preset, loss_name, s, t,
 def strotss_process(s, t, base_dir=f"{os.path.dirname(__file__)}/../experiments/result",
                     resize_dim=1024, effect=XDoGEffect(),
                     preset=portrait_preset,
-                    cpu=False):
+                    cpu=False, output_name="result"):
 
     Path(base_dir).mkdir(exist_ok=True, parents=True)
     base_dir = Path(base_dir)
-    strotss_out = base_dir / ("str_" + Path(s).name)
+    strotss_out = base_dir / (output_name + Path(s).name)
 
     if not Path(strotss_out).exists():
         result = execute_style_transfer(s, t, resize_dim, device="cpu" if cpu else "cuda:0")
@@ -107,10 +107,11 @@ if __name__ == '__main__':
     parser.add_argument('--effect', help='which effect to use', default="xdog")
     parser.add_argument('--content', help='content image', default=f"{os.path.dirname(__file__)}/../experiments/source/portrait.png")
     parser.add_argument('--style', help='style image', default=f"{os.path.dirname(__file__)}/../experiments/target/xdog_portrait.jpg")
+    parser.add_argument('--outputname', help='output name', default="result")
     parser.add_argument('--cpu', help='run on cpu', dest="cpu", action="store_true")
     parser.set_defaults(cpu=False)
 
     args = parser.parse_args()
     effect, preset, _ = get_default_settings(args.effect)
     effect.enable_checkpoints()
-    strotss_process(args.content, args.style, effect=effect, preset=preset, cpu=args.cpu)
+    strotss_process(args.content, args.style, effect=effect, preset=preset, cpu=args.cpu, output_name=args.outputname)
