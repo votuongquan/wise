@@ -98,7 +98,7 @@ def strotss_process(s, t, base_dir=f"{os.path.dirname(__file__)}/../experiments/
         result = execute_style_transfer(s, t, resize_dim, device="cpu" if cpu else "cuda:0")
         result.save(strotss_out)
 
-    single_optimize(effect, preset, "l1", s, str(strotss_out), write_video=True,
+    single_optimize(effect, preset, "l1", s, str(strotss_out), write_video=False,
                     base_dir=str(base_dir), cpu=cpu)
 
 
