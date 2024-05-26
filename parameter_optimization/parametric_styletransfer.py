@@ -92,7 +92,7 @@ def strotss_process(s, t, base_dir=f"{os.path.dirname(__file__)}/../experiments/
 
     Path(base_dir).mkdir(exist_ok=True, parents=True)
     base_dir = Path(base_dir)
-    strotss_out = base_dir / (output_name + Path(s).name)
+    strotss_out = base_dir / (output_name + "_" + Path(s).name)
 
     if not Path(strotss_out).exists():
         result = execute_style_transfer(s, t, resize_dim, device="cpu" if cpu else "cuda:0")
