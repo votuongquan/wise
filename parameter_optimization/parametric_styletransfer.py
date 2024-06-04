@@ -88,7 +88,7 @@ def single_optimize(module, preset, loss_name, s, t,
 def strotss_process(s, t, base_dir=f"{os.path.dirname(__file__)}/../experiments/result",
                     resize_dim=1024, effect=XDoGEffect(),
                     preset=portrait_preset,
-                    cpu=False, output_name="result"):
+                    cpu=False, output_name="result", optimize_option = True):
 
     Path(base_dir).mkdir(exist_ok=True, parents=True)
     base_dir = Path(base_dir)
@@ -109,9 +109,11 @@ if __name__ == '__main__':
     parser.add_argument('--style', help='style image', default=f"{os.path.dirname(__file__)}/../experiments/target/xdog_portrait.jpg")
     parser.add_argument('--outputname', help='output name', default="result")
     parser.add_argument('--cpu', help='run on cpu', dest="cpu", action="store_true")
+    parser.add_argument('--optimize_option', help='optimize option', default= True, action="store_true")
+
     parser.set_defaults(cpu=False)
 
     args = parser.parse_args()
     effect, preset, _ = get_default_settings(args.effect)
     effect.enable_checkpoints()
-    strotss_process(args.content, args.style, effect=effect, preset=preset, cpu=args.cpu, output_name=args.outputname)
+    strotss_process(args.content, args.style, effect=effect, preset=preset, cpu=args.cpu, output_name=args.outputname, optimize_option=args.optimize_option)
