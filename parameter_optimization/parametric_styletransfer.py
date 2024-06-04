@@ -109,7 +109,7 @@ if __name__ == '__main__':
     parser.add_argument('--style', help='style image', default=f"{os.path.dirname(__file__)}/../experiments/target/xdog_portrait.jpg")
     parser.add_argument('--outputname', help='output name', default="result")
     parser.add_argument('--cpu', help='run on cpu', dest="cpu", action="store_true")
-    parser.add_argument('--optimize_option', help='optimize option', default= True, action="store_true")
+    parser.add_argument('--optimize_option', help='run optimization', dest="optimize_option", action="store_true")
 
     parser.set_defaults(cpu=False)
 
