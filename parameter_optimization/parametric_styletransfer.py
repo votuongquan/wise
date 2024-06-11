@@ -1,6 +1,7 @@
 import argparse
 import os
 
+import time
 import imageio
 import torch
 import torch.nn.functional as F
@@ -89,10 +90,13 @@ def strotss_process(s, t, base_dir=f"{os.path.dirname(__file__)}/../experiments/
                     resize_dim=1024, effect=XDoGEffect(),
                     preset=portrait_preset,
                     cpu=False, output_name="result", optimize_option = True):
+    
+    start_time = time.time()
 
     Path(base_dir).mkdir(exist_ok=True, parents=True)
     base_dir = Path(base_dir)
     strotss_out = base_dir / (output_name + "_" + Path(s).name)
+    
 
     if not Path(strotss_out).exists():
         result = execute_style_transfer(s, t, resize_dim, device="cpu" if cpu else "cuda:0")
@@ -101,15 +105,19 @@ def strotss_process(s, t, base_dir=f"{os.path.dirname(__file__)}/../experiments/
     if optimize_option:
         single_optimize(effect, preset, "l1", s, str(strotss_out), write_video=False,
                     base_dir=str(base_dir), cpu=cpu)
+        
+    end_time = time.time()
+    execution_time = end_time - start_time
+    print(f"Total execution time = {execution_time:.3f} sec")
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--effect', help='which effect to use', default="xdog")
+    parser.add_argument('--effect', '-e', help='which effect to use', default="xdog")
     parser.add_argument('--content', help='content image', default=f"{os.path.dirname(__file__)}/../experiments/source/portrait.png")
     parser.add_argument('--style', help='style image', default=f"{os.path.dirname(__file__)}/../experiments/target/xdog_portrait.jpg")
-    parser.add_argument('--outputname', help='output name', default="result")
     parser.add_argument('--cpu', help='run on cpu', dest="cpu", action="store_true")
     parser.add_argument('--optimize_option', help='run optimization', dest="optimize_option", action="store_true")
+    parser.add_argument('--outputname', help='output name', default="result")
 
     parser.set_defaults(cpu=False)
 
