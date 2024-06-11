@@ -19,7 +19,7 @@ from argparse import ArgumentParser
 class Vgg16_Extractor(nn.Module):
     def __init__(self, space):
         super().__init__()
-        self.vgg_layers = models.vgg16(pretrained=True).features
+        self.vgg_layers = models.vgg19(pretrained=True).features
 
         for param in self.parameters():
             param.requires_grad = False
